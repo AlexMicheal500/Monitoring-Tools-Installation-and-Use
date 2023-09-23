@@ -1,0 +1,15 @@
+# Pull the Prometheus Docker Image
+docker pull prom/prometheus
+
+# Create a prometheus.yml configuration file
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  # Add more scrape_configs as needed for your specific use case
+
+# Run Prometheus Container
+docker run -d -p 9090:9090 --name prometheus -v /path/to/your/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus

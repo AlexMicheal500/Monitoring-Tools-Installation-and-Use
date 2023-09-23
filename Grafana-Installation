@@ -1,0 +1,27 @@
+Visit the link https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/
+Follow the following steps:
+docker run -d -p 3000:3000 --name=grafana grafana/grafana-enterprise
+# The `docker ps` command shows the processes running in Docker
+docker ps
+
+# This will display a list of containers that looks like the following:
+CONTAINER ID   IMAGE  COMMAND   CREATED  STATUS   PORTS    NAMES
+cd48d3994968   grafana/grafana-enterprise   "/run.sh"   8 seconds ago   Up 7 seconds   0.0.0.0:3000->3000/tcp   grafana
+
+# To stop the grafana container run the command
+# docker stop CONTAINER-ID or use
+# docker stop NAME, which is `grafana` as previously defined
+docker stop grafana
+
+Use persistent storage (recommended)
+# create a persistent volume for your data
+docker volume create grafana-storage
+
+# verify that the volume was created correctly
+# you should see a json output
+docker volume inspect grafana-storage
+
+# start grafana
+docker run -d -p 3000:3000 --name=grafana \
+  --volume grafana-storage:/var/lib/grafana \
+  grafana/grafana-enterprise
